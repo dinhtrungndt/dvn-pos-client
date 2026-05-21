@@ -1,33 +1,24 @@
 import LOGO from '@/assets/logo/logo.png';
+import { FOOD_INDUSTRIES, RETAIL_INDUSTRIES, SERVICE_INDUSTRIES } from '@/data/industries';
 import {
-  Apple,
-  Baby,
   Bed,
-  BookOpen,
   Calculator,
   ChevronDown,
   Coffee,
   DollarSign,
-  Dumbbell,
   FileText,
-  Hammer,
   Heart,
-  HeartPulse,
   Layers,
   Layout,
   Menu,
-  Mic,
   QrCode,
   Scissors,
-  Shirt,
   ShoppingCart,
-  Smartphone,
   Sparkles,
   Truck,
   Users,
   Utensils,
-  Wrench,
-  X,
+  X
 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -387,25 +378,14 @@ export default function Header() {
                       </div>
 
                       <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[12px] text-slate-600">
-                        {([
-                          [<Shirt className="w-3.5 h-3.5 text-slate-400" />, 'Thời trang'],
-                          [<ShoppingCart className="w-3.5 h-3.5 text-slate-400" />, 'Tạp hóa & Siêu thị'],
-                          [<Smartphone className="w-3.5 h-3.5 text-slate-400" />, 'Điện máy, Điện thoại'],
-                          [<Sparkles className="w-3.5 h-3.5 text-slate-400" />, 'Mỹ phẩm'],
-                          [<Hammer className="w-3.5 h-3.5 text-slate-400" />, 'Vật liệu xây dựng'],
-                          [<Apple className="w-3.5 h-3.5 text-slate-400" />, 'Nông sản & Thực phẩm'],
-                          [<HeartPulse className="w-3.5 h-3.5 text-slate-400" />, 'Nhà thuốc'],
-                          [<Wrench className="w-3.5 h-3.5 text-slate-400" />, 'Xe, Máy móc & Phụ tùng'],
-                          [<Baby className="w-3.5 h-3.5 text-slate-400" />, 'Mẹ & Bé'],
-                          [<BookOpen className="w-3.5 h-3.5 text-slate-400" />, 'Sách, Văn phòng phẩm'],
-                        ] as [React.ReactNode, string][]).map(([icon, label]) => (
+                        {RETAIL_INDUSTRIES.slice(0, 12).map((item) => (
                           <a
-                            key={label}
+                            key={item.label}
                             href="#"
                             className="flex items-center gap-1.5 py-1 hover:text-emerald-600 transition-colors"
                           >
-                            {icon}
-                            {label}
+                            <item.icon className="w-3.5 h-3.5 text-slate-400" />
+                            {item.label}
                           </a>
                         ))}
                       </div>
@@ -423,19 +403,14 @@ export default function Header() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[12px] text-slate-600">
-                          {([
-                            [<Utensils className="w-3.5 h-3.5 text-slate-400" />, 'Nhà hàng'],
-                            [<Utensils className="w-3.5 h-3.5 text-slate-400" />, 'Quán ăn'],
-                            [<Coffee className="w-3.5 h-3.5 text-slate-400" />, 'Cafe, Trà sữa'],
-                            [<Mic className="w-3.5 h-3.5 text-slate-400" />, 'Karaoke, Bida'],
-                          ] as [React.ReactNode, string][]).map(([icon, label]) => (
+                          {FOOD_INDUSTRIES.map((item) => (
                             <a
-                              key={label}
+                              key={item.label}
                               href="#"
                               className="flex items-center gap-1.5 py-1 hover:text-orange-500 transition-colors"
                             >
-                              {icon}
-                              {label}
+                              <item.icon className="w-3.5 h-3.5 text-slate-400" />
+                              {item.label}
                             </a>
                           ))}
                         </div>
@@ -452,19 +427,14 @@ export default function Header() {
                         </div>
 
                         <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-[12px] text-slate-600">
-                          {([
-                            [<Sparkles className="w-3.5 h-3.5 text-slate-400" />, 'Beauty Spa'],
-                            [<Scissors className="w-3.5 h-3.5 text-slate-400" />, 'Hair & Nail Salon'],
-                            [<Bed className="w-3.5 h-3.5 text-slate-400" />, 'Khách sạn, Nhà nghỉ'],
-                            [<Dumbbell className="w-3.5 h-3.5 text-slate-400" />, 'Gym & Fitness'],
-                          ] as [React.ReactNode, string][]).map(([icon, label]) => (
+                          {SERVICE_INDUSTRIES.map((item) => (
                             <a
-                              key={label}
+                              key={item.label}
                               href="#"
                               className="flex items-center gap-1.5 py-1 hover:text-pink-500 transition-colors"
                             >
-                              {icon}
-                              {label}
+                              <item.icon className="w-3.5 h-3.5 text-slate-400" />
+                              {item.label}
                             </a>
                           ))}
                         </div>

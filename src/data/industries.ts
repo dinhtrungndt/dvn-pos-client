@@ -1,0 +1,60 @@
+import {
+  Apple,
+  Baby,
+  Bed,
+  Beef,
+  BookOpen,
+  Coffee,
+  Dumbbell,
+  Factory,
+  Gift,
+  Grid2X2,
+  Hammer,
+  HeartPulse,
+  Martini,
+  Mic,
+  Scissors,
+  Shirt,
+  ShoppingCart,
+  Smartphone,
+  Sofa,
+  Sparkles,
+  Stethoscope,
+  Utensils,
+  Wrench,
+} from 'lucide-react';
+
+export const RETAIL_INDUSTRIES = [
+  { icon: Shirt, label: 'Thời trang' },
+  { icon: ShoppingCart, label: 'Tạp hóa & Siêu thị' },
+  { icon: Smartphone, label: 'Điện thoại & Điện máy' },
+  { icon: Sparkles, label: 'Mỹ phẩm' },
+  { icon: Hammer, label: 'Vật liệu xây dựng' },
+  { icon: Apple, label: 'Nông sản & Thực phẩm' },
+  { icon: HeartPulse, label: 'Nhà thuốc' },
+  { icon: Wrench, label: 'Xe, Máy móc & Phụ tùng' },
+  { icon: Baby, label: 'Mẹ & Bé' },
+  { icon: Sofa, label: 'Nội thất & Gia dụng' },
+  { icon: BookOpen, label: 'Sách & Văn phòng phẩm' },
+  { icon: Gift, label: 'Hoa & Quà tặng' },
+  { icon: Factory, label: 'Sản xuất' },
+  { icon: Grid2X2, label: 'Khác' },
+];
+
+export const FOOD_INDUSTRIES = [
+  { icon: Utensils, label: 'Nhà hàng' },
+  { icon: Utensils, label: 'Quán ăn' },
+  { icon: Coffee, label: 'Cafe, Trà sữa' },
+  { icon: Mic, label: 'Karaoke, Bida' },
+  { icon: Martini, label: 'Bar, Pub & Club' },
+  { icon: Beef, label: 'Căng tin & Trạm dừng nghỉ' },
+];
+
+export const SERVICE_INDUSTRIES = [
+  { icon: Sparkles, label: 'Beauty Spa & Massage' },
+  { icon: Scissors, label: 'Hair Salon & Nails' },
+  { icon: Bed, label: 'Khách sạn & Nhà nghỉ' },
+  { icon: Coffee, label: 'Homestay & Villa, Resort' },
+  { icon: Dumbbell, label: 'Fitness & Yoga' },
+  { icon: Stethoscope, label: 'Phòng khám' },
+];
