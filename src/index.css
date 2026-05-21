@@ -1,59 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --font-heading: "Helvetica Now Display Bold", system-ui, -apple-system, Segoe UI, Roboto,
+    "Inter", Arial, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+  --color-text: #192837;
+  --color-accent: #7342e2;
+  --color-login-bg: #f2f2ee;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-text);
+    @apply bg-white antialiased;
+  }
+
+  ::selection {
+    background: rgba(16, 185, 129, 0.25);
+    /* emerald-500 ~ */
+  }
+}
+
+@layer components {
+
+  /* Panel dropdown dùng chung: chỉ cần class "dropdown-panel" */
+  .dropdown-panel {
+    box-shadow: 0 24px 60px rgba(2, 6, 23, 0.16);
+    @apply rounded-2xl border border-slate-100 bg-white;
+  }
+
+  /* Nút nav dùng chung: chỉ cần class "nav-trigger" */
+  .nav-trigger {
+    @apply flex items-center gap-1 font-bold transition-colors py-2 text-slate-600 hover:text-emerald-600;
+  }
+
+  .nav-trigger.is-active {
+    @apply text-emerald-600;
+  }
+}
+
 @layer utilities {
 
-  /* ── Dropdown animations ── */
-  @keyframes fadeInDown {
-    from {
-      opacity: 0;
-      transform: translateY(-6px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(24px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-
-    to {
-      opacity: 1;
-    }
-  }
-
-  .animate-fade-in-down {
-    animation: fadeInDown 0.16s ease both;
-  }
-
-  .animate-slide-in-right {
-    animation: slideInRight 0.22s ease both;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.15s ease both;
-  }
-
-  /* ── Hover bridge: lấp khoảng trống giữa nav button và dropdown ── */
+  /* Hover bridge: lấp khoảng trống giữa button và dropdown để không bị flicker */
   .nav-item>.dropdown-panel {
-    padding-top: 8px;
-    margin-top: -8px;
+    padding-top: 10px;
+    margin-top: -10px;
+  }
+
+  /* Video background nhìn “premium” hơn */
+  .hero-video {
+    @apply absolute inset-0 h-full w-full object-cover;
+    filter: saturate(1.05) contrast(1.05);
+  }
+
+  /* Overlay giúp chữ rõ hơn trên video */
+  .hero-overlay {
+    @apply absolute inset-0 bg-slate-900/30;
   }
 }
