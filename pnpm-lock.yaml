@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@thesvg/react':
+        specifier: ^3.0.1
+        version: 3.0.1(react@19.2.6)
       axios:
         specifier: ^1.16.1
         version: 1.16.1
@@ -354,6 +357,12 @@ packages:
 
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
+
+  '@thesvg/react@3.0.1':
+    resolution: {integrity: sha512-tuhaAdBjIlakiLgcve66Ly9qbL5mJNIpRR4dxSySce+LqmNwoE3h/gt8CB3o4iatRAEPp4qpWKdAaHReyzLvDQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      react: '>=18'
 
   '@tybys/wasm-util@0.10.2':
     resolution: {integrity: sha512-RoBvJ2X0wuKlWFIjrwffGw1IqZHKQqzIchKaadZZfnNpsAYp2mM0h36JtPCjNDAHGgYez/15uMBpfGwchhiMgg==}
@@ -1637,6 +1646,10 @@ snapshots:
     optional: true
 
   '@rolldown/pluginutils@1.0.1': {}
+
+  '@thesvg/react@3.0.1(react@19.2.6)':
+    dependencies:
+      react: 19.2.6
 
   '@tybys/wasm-util@0.10.2':
     dependencies:
