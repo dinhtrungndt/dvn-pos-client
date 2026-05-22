@@ -198,11 +198,11 @@ const PRESS_LOGOS: { img: string; href: string; alt: string; }[] = [
 
 const HomePage = () => {
   return (
-    <div className="relative w-full overflow-x-clip" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}>
+    <div className="relative w-full overflow-x-clip bg-white" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}>
       <SEO title="Trang chủ" description="DVN POS - Phần mềm quản lý bán hàng phổ biến" />
 
       {/* ───────────────── HERO ───────────────── */}
-      <section className="relative w-full bg-slate-950 md:aspect-video">
+      <section className="relative w-full bg-slate-950 md:aspect-video overflow-hidden">
         <div className="absolute top-[80px] md:top-0 left-0 w-full aspect-video md:h-full z-0 pointer-events-none">
           <video
             autoPlay
@@ -213,7 +213,7 @@ const HomePage = () => {
             style={{ filter: 'saturate(1.05) contrast(1.05)' }}
             src="https://dvntechnology.com/assets/bg_not_logo.mp4"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-slate-950/35 to-slate-950/65" />
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-slate-950/40 to-slate-950/70" />
         </div>
 
         <Header />
@@ -222,11 +222,11 @@ const HomePage = () => {
           className={[
             'relative z-10 w-full max-w-[1280px] mx-auto px-5 sm:px-8',
             'pt-[calc(100vw*9/16+28px)] sm:pt-[calc(100vw*9/16+40px)]',
-            'md:pt-[clamp(40px,8vw,72px)]',
-            'pb-10 md:pb-8',
+            'md:pt-[clamp(44px,8vw,80px)]',
+            'pb-10 md:pb-12',
           ].join(' ')}
         >
-          <div className="max-w-[640px]">
+          <div className="max-w-[680px]">
             <motion.div
               custom={0}
               initial="hidden"
@@ -243,7 +243,7 @@ const HomePage = () => {
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="mt-5 mb-5 text-[clamp(1.65rem,5vw,3rem)] leading-[1.06] tracking-[-0.015em] text-white"
+              className="mt-5 mb-5 text-[clamp(1.8rem,5vw,3.15rem)] leading-[1.06] tracking-[-0.02em] text-white"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               <Zap className="inline-block w-6 h-6 text-white align-middle relative -top-[2px] mr-1" />
@@ -256,29 +256,16 @@ const HomePage = () => {
               initial="hidden"
               animate="visible"
               variants={fadeUp}
-              className="mb-7 text-[clamp(0.98rem,2.4vw,1.1rem)] leading-[1.7] text-white/85 max-w-[580px]"
+              className="mb-7 text-[clamp(1rem,2.4vw,1.12rem)] leading-[1.75] text-white/85 max-w-[620px]"
             >
               Quản lý bán hàng – tồn kho – khách hàng – báo cáo, đồng bộ đa kênh và vận hành trơn tru cho cửa hàng của bạn.
             </motion.p>
 
-            <motion.div
-              custom={3}
-              initial="hidden"
-              animate="visible"
-              variants={fadeUp}
-              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4"
-            >
+            <motion.div custom={3} initial="hidden" animate="visible" variants={fadeUp} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
               <motion.button
                 whileHover={{ scale: 1.03, filter: 'brightness(1.06)' }}
                 whileTap={{ scale: 0.98 }}
-                className="group flex items-center justify-between gap-7 w-full sm:w-auto rounded-full px-6 py-4 text-white font-semibold
-                           bg-emerald-600 hover:bg-emerald-700
-                           shadow-[0_10px_40px_rgba(16,185,129,0.32)]"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'clamp(0.95rem,2vw,1rem)',
-                  minWidth: '210px',
-                }}
+                className="group flex items-center justify-between gap-7 w-full sm:w-auto rounded-full px-6 py-4 text-white font-semibold bg-emerald-600 hover:bg-emerald-700 shadow-[0_10px_40px_rgba(16,185,129,0.32)]"
               >
                 <span>Bắt đầu ngay</span>
                 <ArrowRightCircle className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
@@ -288,11 +275,6 @@ const HomePage = () => {
                 whileHover={{ scale: 1.03, backgroundColor: 'rgba(255,255,255,0.18)' }}
                 whileTap={{ scale: 0.98 }}
                 className="flex items-center justify-between gap-7 w-full sm:w-auto rounded-full px-6 py-4 text-white font-semibold border border-white/20 bg-white/10 backdrop-blur-md"
-                style={{
-                  fontFamily: 'var(--font-body)',
-                  fontSize: 'clamp(0.95rem,2vw,1rem)',
-                  minWidth: '210px',
-                }}
               >
                 <span>Khám phá</span>
                 <ArrowRightCircle className="w-5 h-5" />
@@ -306,18 +288,23 @@ const HomePage = () => {
             </motion.div>
           </div>
         </main>
-
       </section>
 
       {/* ───────────────── BENEFITS ───────────────── */}
       <section className="relative w-full bg-white">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 py-10 sm:py-12">
-          <div className="max-w-[820px]">
-            <h3 className="text-[clamp(1.4rem,3vw,2.1rem)] leading-tight tracking-[-0.01em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
+          <div className="max-w-[860px]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[12px] font-semibold text-slate-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Lợi ích nổi bật
+            </div>
+
+            <h3 className="mt-3 text-[clamp(1.45rem,3vw,2.15rem)] leading-tight tracking-[-0.015em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
               <span className="text-emerald-600">DVN POS</span> giúp bạn quản lý <br className="hidden sm:block" />
               dễ dàng, bán hàng hiệu quả
             </h3>
-            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 max-w-[640px]">
+
+            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 max-w-[680px]">
               Tối ưu vận hành cửa hàng với giao diện thân thiện, chi phí hợp lý và giải pháp phù hợp nhiều ngành hàng.
             </p>
           </div>
@@ -334,14 +321,18 @@ const HomePage = () => {
       <section className="relative w-full bg-slate-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 py-10 sm:py-12">
           <div className="max-w-[980px]">
-            <h3 className="text-[clamp(1.35rem,3vw,2.05rem)] leading-tight tracking-[-0.01em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
-              Chúng tôi thiết kế phần mềm quản lý bán hàng
-              <span className="hidden md:block"> chuyên biệt cho từng ngành hàng</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+              Ngành hàng
+            </div>
+
+            <h3 className="mt-3 text-[clamp(1.4rem,3vw,2.15rem)] leading-tight tracking-[-0.015em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
+              Chúng tôi thiết kế phần mềm quản lý bán hàng <span className="hidden md:inline">chuyên biệt cho từng ngành hàng</span>
             </h3>
           </div>
 
           <div className="mt-7 grid grid-cols-1 xl:grid-cols-12 gap-6">
-            <div className="xl:col-span-5 rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
+            <div className="xl:col-span-5 rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-soft">
               <IndustryHeader img="https://cdn-kvweb.kiotviet.vn/kiotviet-website/wp-content/uploads/2023/10/08074241/unnamed-3-2.png" title="Bán buôn, bán lẻ" />
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {RETAIL_INDUSTRIES.map((item) => (
@@ -351,7 +342,7 @@ const HomePage = () => {
             </div>
 
             <div className="xl:col-span-7 space-y-6">
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-soft">
                 <IndustryHeader img="https://cdn-kvweb.kiotviet.vn/kiotviet-website/wp-content/uploads/2023/10/02070005/unnamed-1.png" title="Ăn uống, giải trí" />
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {FOOD_INDUSTRIES.map((item) => (
@@ -360,7 +351,7 @@ const HomePage = () => {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-soft">
                 <IndustryHeader img="https://cdn-kvweb.kiotviet.vn/kiotviet-website/wp-content/uploads/2023/10/02070256/unnamed-2.png" title="Lưu trú, làm đẹp" />
                 <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {SERVICE_INDUSTRIES.map((item) => (
@@ -376,7 +367,7 @@ const HomePage = () => {
               <div className="text-[16px] sm:text-[17px] font-semibold text-slate-900">7 ngày dùng thử miễn phí</div>
               <div className="mt-1 text-[13px] text-slate-600">Trải nghiệm đầy đủ tính năng — không cần thẻ.</div>
             </div>
-            <button className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-[0_10px_30px_rgba(16,185,129,0.25)]">
+            <button className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-[0_10px_30px_rgba(16,185,129,0.22)]">
               Đăng ký ngay
               <ArrowRightCircle className="w-4 h-4" />
             </button>
@@ -384,34 +375,37 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ───────────────── INFORMATION SECURITY ───────────────── */}
-      <section className="relative w-full bg-slate-50">
+      {/* ───────────────── SECURITY ───────────────── */}
+      <section className="relative w-full bg-white">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 py-10 sm:py-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 text-emerald-700 text-[12px] font-semibold uppercase tracking-widest">
-                <ShieldCheck className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[12px] font-semibold text-slate-700">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 An toàn dữ liệu
               </div>
 
-              <div className="mt-3 text-[clamp(1.2rem,2.4vw,1.7rem)] leading-tight tracking-[-0.01em] text-slate-900 font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
+              <div className="mt-3 text-[clamp(1.25rem,2.4vw,1.75rem)] leading-tight tracking-[-0.015em] text-slate-900 font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
                 Quy trình phát triển phần mềm nghiêm ngặt đảm bảo an toàn dữ liệu khách hàng
               </div>
 
-              <p className="mt-3 text-[15px] leading-relaxed text-slate-600 max-w-[720px]">
-                Có đội ngũ chuyên gia kiểm soát chặt chẽ các vấn đề liên quan đến an toàn thông tin. Các thông tin định danh được mã hóa bảo mật nhiều lớp nhằm bảo vệ dữ liệu của khách hàng, hạn chế tối đa rủi ro lộ thông tin.
+              <p className="mt-3 text-[15px] leading-relaxed text-slate-600 max-w-[760px]">
+                Có đội ngũ chuyên gia kiểm soát chặt chẽ các vấn đề liên quan đến an toàn thông tin. Các thông tin định danh
+                được mã hóa bảo mật nhiều lớp nhằm bảo vệ dữ liệu của khách hàng, hạn chế tối đa rủi ro lộ thông tin.
               </p>
             </div>
 
             <div className="lg:col-span-5">
-              <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-sm">
+              <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-soft">
                 <div className="text-[13px] font-semibold text-slate-900">Chứng chỉ & tiêu chuẩn</div>
                 <div className="mt-4 flex items-center gap-5">
                   <img className="h-10 w-auto object-contain" src="https://cdn-kvweb.kiotviet.vn/kiotviet-website/wp-content/uploads/images/ISO-27001.svg" alt="ISO 27001" loading="lazy" />
                   <div className="h-8 w-px bg-slate-200" />
                   <img className="h-10 w-auto object-contain" src="https://cdn-kvweb.kiotviet.vn/kiotviet-website/wp-content/uploads/images/pcidss.svg" alt="PCI DSS" loading="lazy" />
                 </div>
-                <div className="mt-4 text-[13px] text-slate-600 leading-relaxed">Hệ thống được vận hành theo các tiêu chuẩn bảo mật phổ biến, giúp nâng cao mức độ tin cậy và an toàn.</div>
+                <div className="mt-4 text-[13px] text-slate-600 leading-relaxed">
+                  Hệ thống được vận hành theo các tiêu chuẩn bảo mật phổ biến, giúp nâng cao mức độ tin cậy và an toàn.
+                </div>
               </div>
             </div>
           </div>
@@ -422,9 +416,16 @@ const HomePage = () => {
       <section className="relative w-full bg-slate-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 py-10 sm:py-12">
           <div className="flex items-end justify-between gap-4">
-            <h3 className="text-[clamp(1.4rem,3vw,2.1rem)] leading-tight tracking-[-0.01em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
-              Khách hàng của chúng tôi
-            </h3>
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-slate-700">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                Case study
+              </div>
+              <h3 className="mt-3 text-[clamp(1.4rem,3vw,2.15rem)] leading-tight tracking-[-0.015em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                Khách hàng của chúng tôi
+              </h3>
+            </div>
+
             <a href="#" className="hidden sm:inline-flex items-center gap-2 text-[13px] font-semibold text-emerald-700 hover:text-emerald-800 transition-colors">
               Tất cả khách hàng
               <ChevronRight className="w-4 h-4" />
@@ -446,49 +447,72 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* ───────────────── APPSTORE ───────────────── */}
-      <section className="relative w-full bg-gradient-to-b from-white to-slate-50">
+      {/* ───────────────── APPSTORE (horizontal like image) ───────────────── */}
+      <section className="relative w-full bg-white">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 py-10 sm:py-12">
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-            <div className="xl:col-span-5">
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/70 bg-emerald-50 px-3 py-1.5 text-[12px] font-semibold text-emerald-700">
-                <Download className="w-4 h-4" />
-                Ứng dụng mobile
-              </div>
-
-              <h3 className="mt-4 text-[clamp(1.4rem,3vw,2.1rem)] leading-tight tracking-[-0.015em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
-                Trải nghiệm ứng dụng <span className="text-emerald-600">DVN</span> trên <br />
-                Google Play &amp; App Store
-              </h3>
-
-              <p className="mt-3 text-[15px] leading-relaxed text-slate-600 max-w-[520px]">
-                Tải app phù hợp theo mô hình kinh doanh. Đồng bộ dữ liệu realtime, thao tác nhanh và ổn định.
-              </p>
-
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-3">
-                {APPS.map((app) => (
-                  <AppItem key={app.name} {...app} />
-                ))}
-              </div>
-
-              <div className="mt-5 flex flex-wrap gap-3">
-                <a href="#" className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-[13px] font-semibold bg-slate-900 text-white hover:bg-slate-800 transition-colors">
-                  Google Play
-                  <ArrowRightCircle className="w-4 h-4" />
-                </a>
-                <a href="#" className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-[13px] font-semibold border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 transition-colors">
-                  App Store
-                  <ArrowRightCircle className="w-4 h-4" />
-                </a>
-              </div>
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200/70 bg-emerald-50 px-3 py-1.5 text-[12px] font-semibold text-emerald-700">
+              <Download className="w-4 h-4" />
+              Ứng dụng mobile
             </div>
 
-            <div className="xl:col-span-7">
-              <div className="flex flex-col gap-4 sm:gap-5">
-                {APP_REVIEWS.map((r) => (
-                  <AppReviewCard key={r.author} {...r} />
+            <h3
+              className="mt-4 text-[clamp(1.5rem,3.2vw,2.35rem)] leading-tight tracking-[-0.02em] text-slate-900"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Trải nghiệm ứng dụng <span className="text-emerald-600">DVN</span> trên <br />
+              Google Play &amp; App Store
+            </h3>
+
+            <p className="mt-3 text-[15px] leading-relaxed text-slate-600 max-w-[760px] mx-auto">
+              Tải app phù hợp theo mô hình kinh doanh. Đồng bộ dữ liệu realtime, thao tác nhanh và ổn định.
+            </p>
+
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-[13px] font-semibold
+                           bg-slate-900 text-white hover:bg-slate-800 transition-colors"
+              >
+                Google Play
+                <ArrowRightCircle className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-[13px] font-semibold
+                           border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 transition-colors"
+              >
+                App Store
+                <ArrowRightCircle className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
+          {/* App icons row */}
+          <div className="mt-10">
+            <div className="hidden md:grid grid-cols-5 gap-6">
+              {APPS.map((app) => (
+                <AppIconItem key={app.name} {...app} />
+              ))}
+            </div>
+
+            <div className="md:hidden -mx-5 px-5 overflow-x-auto">
+              <div className="flex gap-6 w-max pr-2 snap-x snap-mandatory">
+                {APPS.map((app) => (
+                  <div key={app.name} className="snap-start">
+                    <AppIconItem {...app} />
+                  </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* Reviews row */}
+          <div className="mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              {APP_REVIEWS.map((r) => (
+                <AppReviewCard key={r.author} {...r} />
+              ))}
             </div>
           </div>
         </div>
@@ -524,7 +548,7 @@ const HomePage = () => {
             </div>
 
             <div className="xl:col-span-4">
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 sm:p-5 shadow-soft">
                 <div className="text-[12px] font-semibold text-slate-700 uppercase tracking-widest">Nổi bật khác</div>
                 <div className="mt-3 space-y-3">
                   {NEWS_RIGHT.map((n) => (
@@ -535,7 +559,7 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="mt-10 rounded-3xl border border-slate-200 bg-white p-6 sm:p-7">
+          <div className="mt-10 rounded-3xl border border-slate-200 bg-white p-6 sm:p-7 shadow-soft">
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <h4 className="text-[15px] font-semibold text-slate-900">Báo chí viết về DVN</h4>
               <span className="text-[12px] text-slate-500">Nguồn uy tín • Liên kết mở tab mới</span>
@@ -568,7 +592,7 @@ const HomePage = () => {
       {/* ───────────────── HOTLINE / SUPPORT ───────────────── */}
       <section className="relative w-full bg-slate-50">
         <div className="max-w-[1280px] mx-auto px-5 sm:px-8 py-10 sm:py-12">
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-soft">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <h3 className="text-[clamp(1.25rem,2.6vw,1.85rem)] leading-tight tracking-[-0.015em] text-slate-900" style={{ fontFamily: 'var(--font-heading)' }}>
                 Hãy để <span className="text-emerald-600">DVN</span> đồng hành kinh doanh cùng bạn
@@ -585,25 +609,23 @@ const HomePage = () => {
                 icon={<PhoneCall className="w-4 h-4" />}
                 title="Hotline"
                 content={
-                  <>
-                    <div className="text-[13px] leading-relaxed text-slate-600">
-                      <div className="mt-1">
-                        <span className="text-slate-500">Tư vấn bán hàng: </span>
-                        <a href="tel:18006162" className="font-semibold text-emerald-700 hover:text-emerald-800">
-                          1800 6162
-                        </a>
-                      </div>
-                      <div className="mt-1">
-                        <span className="text-slate-500">Chăm sóc khách hàng: </span>
-                        <a href="tel:19006522" className="font-semibold text-emerald-700 hover:text-emerald-800">
-                          1900 6522
-                        </a>
-                      </div>
-                      <div className="mt-3 text-[12px] text-slate-500">
-                        Hoạt động 365 ngày/năm từ 7:00 đến 22:00 (kể cả lễ, tết).
-                      </div>
+                  <div className="text-[13px] leading-relaxed text-slate-600">
+                    <div className="mt-1">
+                      <span className="text-slate-500">Tư vấn bán hàng: </span>
+                      <a href="tel:18006162" className="font-semibold text-emerald-700 hover:text-emerald-800">
+                        1800 6162
+                      </a>
                     </div>
-                  </>
+                    <div className="mt-1">
+                      <span className="text-slate-500">Chăm sóc khách hàng: </span>
+                      <a href="tel:19006522" className="font-semibold text-emerald-700 hover:text-emerald-800">
+                        1900 6522
+                      </a>
+                    </div>
+                    <div className="mt-3 text-[12px] text-slate-500">
+                      Hoạt động 365 ngày/năm từ 7:00 đến 22:00 (kể cả lễ, tết).
+                    </div>
+                  </div>
                 }
               />
 
@@ -611,32 +633,20 @@ const HomePage = () => {
                 icon={<MessageCircle className="w-4 h-4" />}
                 title="DVN Fanpage"
                 href="https://www.facebook.com/PhanmembanhangKiotViet/"
-                content={
-                  <p className="text-[13px] leading-relaxed text-slate-600">
-                    Luôn trả lời nhanh nhất thông qua các phản hồi trên Facebook.
-                  </p>
-                }
+                content={<p className="text-[13px] leading-relaxed text-slate-600">Luôn trả lời nhanh nhất thông qua các phản hồi trên Facebook.</p>}
               />
 
               <HotlineCard
                 icon={<Youtube className="w-4 h-4" />}
                 title="Kênh hỗ trợ Youtube"
                 href="https://www.youtube.com/channel/UC7rnmP-i3aWPSLEgcT338vA"
-                content={
-                  <p className="text-[13px] leading-relaxed text-slate-600">
-                    Cập nhật kiến thức sử dụng phần mềm trực quan, giúp bạn thao tác dễ dàng và hiệu quả.
-                  </p>
-                }
+                content={<p className="text-[13px] leading-relaxed text-slate-600">Cập nhật kiến thức sử dụng phần mềm trực quan, giúp bạn thao tác dễ dàng và hiệu quả.</p>}
               />
 
               <HotlineCard
                 icon={<MessagesSquare className="w-4 h-4" />}
                 title="Chat trên web & mobile"
-                content={
-                  <p className="text-[13px] leading-relaxed text-slate-600">
-                    Luôn có người trực chat để trả lời câu hỏi nhanh và hiệu quả suốt 365 ngày/năm.
-                  </p>
-                }
+                content={<p className="text-[13px] leading-relaxed text-slate-600">Luôn có người trực chat để trả lời câu hỏi nhanh và hiệu quả suốt 365 ngày/năm.</p>}
               />
             </div>
           </div>
@@ -664,14 +674,19 @@ function StatPill({ value, label }: { value: string; label: string; }) {
 
 function IntroduceCard({ icon, title, desc }: { icon: string; title: string; desc: string; }) {
   return (
-    <div className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft hover:shadow-dropdown transition-shadow">
       <div className="flex items-center gap-4">
         <div className="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
           <img src={icon} alt={title} width={36} height={36} className="h-9 w-9 object-contain" loading="lazy" />
         </div>
         <h4 className="text-[15px] font-semibold text-slate-900 leading-snug">{title}</h4>
       </div>
+
       <p className="mt-4 text-[14px] leading-relaxed text-slate-600">{desc}</p>
+
+      <div className="mt-5 pt-4 border-t border-slate-100 text-[13px] font-semibold text-emerald-700">
+        Tìm hiểu thêm →
+      </div>
     </div>
   );
 }
@@ -695,18 +710,20 @@ function MajorItem({ icon, label }: { icon: React.ReactNode; label: string; }) {
     >
       <span className="h-8 w-8 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">{icon}</span>
       <span className="leading-snug">{label}</span>
+      <ChevronRight className="w-4 h-4 text-slate-300 ml-auto" />
     </a>
   );
 }
 
 function CustomerCard({ title, address, image, href }: { title: string; address: string; image: string; href: string; }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-soft hover:shadow-dropdown transition-shadow">
       <a href={href} target="_blank" rel="noreferrer" className="block">
         <div className="aspect-[16/10] w-full overflow-hidden bg-slate-100">
-          <img src={image} alt={title} className="h-full w-full object-cover hover:scale-[1.03] transition-transform duration-300" loading="lazy" />
+          <img src={image} alt={title} className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]" loading="lazy" />
         </div>
       </a>
+
       <div className="p-5">
         <h4 className="text-[15px] font-semibold text-slate-900 leading-snug">
           <a href={href} target="_blank" rel="noreferrer" className="hover:text-emerald-700 transition-colors">
@@ -719,53 +736,64 @@ function CustomerCard({ title, address, image, href }: { title: string; address:
   );
 }
 
+function AppIconItem({ name, downloads, icon, href }: { name: string; downloads: string; icon: string; href?: string; }) {
+  return (
+    <a href={href ?? '#'} className="group w-[170px] md:w-auto flex flex-col items-center text-center">
+      <div className="h-16 w-16 rounded-[18px] bg-white shadow-soft border border-slate-200 overflow-hidden flex items-center justify-center group-hover:-translate-y-0.5 group-hover:shadow-dropdown transition-all">
+        <img src={icon} alt={name} className="h-full w-full object-cover" loading="lazy" />
+      </div>
+
+      <div className="mt-3 text-[15px] font-semibold text-slate-900 leading-snug line-clamp-2">{name}</div>
+      <div className="mt-1 text-[13px] text-slate-600">{downloads}</div>
+    </a>
+  );
+}
+
 function AppItem({ name, downloads, icon, href }: { name: string; downloads: string; icon: string; href?: string; }) {
   return (
-    <a
-      href={href ?? '#'}
-      className="group flex items-center gap-3 rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm hover:shadow-md hover:-translate-y-[1px] transition-all"
-    >
+    <a href={href ?? '#'} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft hover:shadow-dropdown transition-shadow flex items-center gap-3">
       <div className="h-11 w-11 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
         <img src={icon} alt={name} className="h-11 w-11 object-cover" loading="lazy" />
       </div>
 
       <div className="min-w-0">
         <div className="text-[13px] font-semibold text-slate-900 truncate">{name}</div>
-        <div className="mt-0.5 inline-flex items-center gap-1.5 text-[12px] text-slate-600">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/90" />
-          {downloads}
-        </div>
+        <div className="mt-0.5 text-[12px] text-slate-600">{downloads}</div>
       </div>
 
-      <div className="ml-auto flex items-center gap-2 text-slate-400 group-hover:text-emerald-700 transition-colors">
-        <span className="hidden sm:inline text-[12px] font-semibold">Xem</span>
-        <ChevronRight className="w-4 h-4" />
-      </div>
+      <ChevronRight className="w-4 h-4 text-slate-400 ml-auto shrink-0" />
     </a>
   );
 }
 
-function AppReviewCard({ image, quote, author, ratingImage }: { image: string; quote: string; author: string; ratingImage: string; }) {
+function AppReviewCard({
+  image,
+  quote,
+  author,
+  ratingImage,
+}: {
+  image: string;
+  quote: string;
+  author: string;
+  ratingImage: string;
+}) {
   return (
-    <div className="group flex items-center gap-4 sm:gap-5 rounded-3xl border border-slate-200 bg-white p-3 sm:p-4 shadow-[0_2px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_40px_rgba(16,185,129,0.08)] hover:-translate-y-[2px] transition-all duration-300">
-      <div className="relative w-24 sm:w-28 shrink-0 rounded-2xl bg-slate-100 overflow-hidden aspect-[4/3]">
-        <img src={image} alt={author} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]" loading="lazy" />
-        <div className="absolute inset-0 ring-1 ring-inset ring-slate-900/5 z-10 rounded-2xl" />
-      </div>
+    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft hover:shadow-dropdown transition-shadow">
+      <div className="flex items-start gap-4">
+        <div className="h-12 w-12 rounded-full overflow-hidden bg-slate-100 shrink-0">
+          <img src={image} alt={author} className="h-full w-full object-cover" loading="lazy" />
+        </div>
 
-      <div className="flex flex-col flex-1 py-1 pr-2">
-        <p className="text-[13.5px] leading-[1.6] text-slate-700 italic">"{quote}"</p>
+        <div className="min-w-0">
+          <p className="text-[14px] leading-relaxed text-slate-700 line-clamp-4">{quote}</p>
 
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <div className="text-[13px] font-bold text-slate-900 truncate">{author}</div>
-            <div className="mt-1">
-              <img src={ratingImage} alt="rating" className="h-3 w-auto object-contain" loading="lazy" />
+          <div className="mt-4 text-[14px] font-semibold text-slate-900 line-clamp-1">{author}</div>
+
+          <div className="mt-2 flex items-center justify-between gap-3">
+            <img src={ratingImage} alt="rating" className="h-3 w-auto object-contain" loading="lazy" />
+            <div className="h-9 w-9 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <CheckCircle2 className="w-4 h-4" />
             </div>
-          </div>
-
-          <div className="h-8 w-8 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300">
-            <CheckCircle2 className="w-4 h-4" />
           </div>
         </div>
       </div>
@@ -787,10 +815,10 @@ function NewsFeaturedCard({
   date: string;
 }) {
   return (
-    <div className="group rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+    <div className="rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-soft hover:shadow-dropdown transition-shadow">
       <a href={href} className="block">
-        <div className="aspect-[16/9] w-full overflow-hidden bg-slate-100">
-          <img src={image} alt={title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+        <div className="aspect-[16/9] bg-slate-100 overflow-hidden">
+          <img src={image} alt={title} className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]" loading="lazy" />
         </div>
       </a>
 
@@ -813,14 +841,14 @@ function NewsFeaturedCard({
 
 function NewsCompactCard({ title, image, href }: { title: string; image: string; href: string; }) {
   return (
-    <a href={href} className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 hover:bg-slate-50 transition-colors">
+    <a href={href} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-soft hover:shadow-dropdown transition-shadow flex items-center gap-3">
       <div className="h-14 w-20 rounded-xl overflow-hidden bg-slate-100 shrink-0">
-        <img src={image} alt={title} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+        <img src={image} alt={title} className="h-full w-full object-cover" loading="lazy" />
       </div>
       <div className="min-w-0">
         <div className="text-[13px] font-semibold text-slate-900 leading-snug line-clamp-2">{title}</div>
       </div>
-      <ChevronRight className="w-4 h-4 text-slate-400 ml-auto shrink-0 group-hover:text-emerald-700 transition-colors" />
+      <ChevronRight className="w-4 h-4 text-slate-400 ml-auto shrink-0" />
     </a>
   );
 }
@@ -836,25 +864,20 @@ function HotlineCard({
   href?: string;
   content: React.ReactNode;
 }) {
-  const Title = () => (
-    <div className="flex items-center gap-2">
-      <span className="h-9 w-9 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-        {icon}
-      </span>
-      <div className="text-[14px] font-semibold text-slate-900">{title}</div>
-    </div>
-  );
-
   return (
-    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white hover:shadow-sm transition-all">
-      {href ? (
-        <a href={href} target="_blank" rel="noreferrer" className="block hover:text-emerald-700 transition-colors">
-          <Title />
-        </a>
-      ) : (
-        <Title />
-      )}
-
+    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white hover:shadow-soft transition-all">
+      <div className="flex items-center gap-2">
+        <span className="h-9 w-9 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+          {icon}
+        </span>
+        {href ? (
+          <a href={href} target="_blank" rel="noreferrer" className="text-[14px] font-semibold text-slate-900 hover:text-emerald-700 transition-colors">
+            {title}
+          </a>
+        ) : (
+          <div className="text-[14px] font-semibold text-slate-900">{title}</div>
+        )}
+      </div>
       <div className="mt-3">{content}</div>
     </div>
   );
