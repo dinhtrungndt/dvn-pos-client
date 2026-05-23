@@ -197,6 +197,7 @@ export const DVNRegisterForm = () => {
   const [captchaId, setCaptchaId] = useState('');
   const [captchaImage, setCaptchaImage] = useState('');
   const [captchaCode, setCaptchaCode] = useState('');
+  void captchaId;
 
   // Step 2 states
   const [industry, setIndustry] = useState('');

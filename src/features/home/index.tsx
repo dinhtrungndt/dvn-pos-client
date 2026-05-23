@@ -752,22 +752,7 @@ function AppIconItem({ name, downloads, icon, href }: { name: string; downloads:
   );
 }
 
-function AppItem({ name, downloads, icon, href }: { name: string; downloads: string; icon: string; href?: string; }) {
-  return (
-    <a href={href ?? '#'} className="rounded-3xl border border-slate-200 bg-white p-4 shadow-soft hover:shadow-dropdown transition-shadow flex items-center gap-3">
-      <div className="h-11 w-11 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center shrink-0 overflow-hidden">
-        <img src={icon} alt={name} className="h-11 w-11 object-cover" loading="lazy" />
-      </div>
 
-      <div className="min-w-0">
-        <div className="text-[13px] font-semibold text-slate-900 truncate">{name}</div>
-        <div className="mt-0.5 text-[12px] text-slate-600">{downloads}</div>
-      </div>
-
-      <ChevronRight className="w-4 h-4 text-slate-400 ml-auto shrink-0" />
-    </a>
-  );
-}
 
 function AppReviewCard({
   image,
