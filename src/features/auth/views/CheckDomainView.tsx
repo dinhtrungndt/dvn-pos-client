@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CheckDomainView() {
   const navigate = useNavigate();
-  // Lấy hàm setSubdomain từ Zustand
   const setGlobalSubdomain = useAuthStore((state) => state.setSubdomain);
 
   // States
