@@ -3,9 +3,12 @@ import { X } from 'lucide-react';
 const BG =
   'https://cdn-kvweb.kiotviet.vn/kiotviet-website/wp-content/uploads/2023/10/31095247/background-register1-1.jpg';
 
-import { KiotVietRegisterForm } from './KiotVietRegisterForm';
+import { useNavigate } from 'react-router-dom';
+import { DVNRegisterForm } from './DVNRegisterForm';
 
 const RegisterView = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen w-full bg-white">
       <div className="relative min-h-screen w-full grid grid-cols-1 lg:grid-cols-2">
@@ -15,7 +18,7 @@ const RegisterView = () => {
           aria-label="Close"
           className="absolute right-6 top-6 z-20 h-12 w-12 rounded-full bg-white/70 hover:bg-white shadow-soft border border-slate-200
                      flex items-center justify-center transition-colors"
-          onClick={() => window.history.back()}
+          onClick={() => navigate('/')}
         >
           <X className="h-6 w-6 text-slate-600" />
         </button>
@@ -64,15 +67,7 @@ const RegisterView = () => {
         {/* RIGHT: form */}
         <div className="relative flex items-center justify-center px-5 sm:px-8 py-12 lg:py-0">
           <div className="w-full max-w-[720px]">
-            <h1
-              className="text-center text-slate-900 font-semibold tracking-[-0.015em]
-                         text-[clamp(1.4rem,2.4vw,2rem)]"
-              style={{ fontFamily: 'var(--font-heading)' }}
-            >
-              Tạo tài khoản dùng thử miễn phí
-            </h1>
-
-            <KiotVietRegisterForm />
+            <DVNRegisterForm />
 
             {/* Mobile: show the left message (optional) */}
             <div className="mt-10 lg:hidden rounded-3xl overflow-hidden border border-slate-200">
@@ -92,7 +87,7 @@ const RegisterView = () => {
                   </div>
 
                   <div className="mt-5 inline-flex items-center justify-center px-6 py-2 text-white text-[14px] font-semibold border border-white/40 rounded-full">
-                    Hỗ trợ đăng ký 1800 6162
+                    Hỗ trợ đăng ký 0399 690 987
                   </div>
                 </div>
               </div>

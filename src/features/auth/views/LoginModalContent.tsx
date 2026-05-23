@@ -11,7 +11,7 @@ export default function LoginModalContent() {
         </div>
       </div>
       <p className="text-sm text-slate-500">
-        Bạn chưa có gian hàng trên KiotViet?
+        Bạn chưa có gian hàng trên DVN?
         <Link className="text-emerald-600 hover:text-emerald-700 font-bold ml-1" to="/register">
           Dùng thử miễn phí
         </Link>
