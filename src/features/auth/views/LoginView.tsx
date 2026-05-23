@@ -1,3 +1,4 @@
+import logo from '@/assets/logo/logo.png';
 import { BarChart2, Eye, EyeOff, Phone, ShoppingCart } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -38,7 +39,7 @@ const LoginView = () => {
       {/* Login Card */}
       <div className="w-full max-w-[440px] bg-white rounded-2xl shadow-2xl relative z-10 overflow-hidden">
         <div className="pt-10 pb-8 px-8 flex justify-center">
-          <img src="https://logo.kiotviet.vn/KiotViet-Logo-Horizontal.svg" alt="DVN POS" className="h-12" />
+          <img src={logo} alt="DVN POS" className="h-12" />
         </div>
 
         <form className="px-8 pb-10 space-y-6" onSubmit={handleLoginManage}>
