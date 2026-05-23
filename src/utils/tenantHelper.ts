@@ -5,9 +5,11 @@
 export const redirectToTenantLogin = (subdomain: string) => {
   const rootDomain = import.meta.env.VITE_ROOT_DOMAIN || 'dinhtrung.id.vn';
 
-  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  // Dùng import.meta.env.DEV của Vite để tự động nhận diện đang chạy dev server (npm run dev)
+  // Dù bạn có truy cập bằng localhost hay qua domain Cloudflare tunnel thì nó vẫn hiểu là đang dev.
+  const isDev = import.meta.env.DEV || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
-  if (isLocalhost) {
+  if (isDev) {
     // Vì localhost không có subdomain, ta lưu tạm subdomain vào localStorage
     // và chuyển sang đường dẫn /login trên chính localhost
     localStorage.setItem('dvn_tenant', subdomain);
