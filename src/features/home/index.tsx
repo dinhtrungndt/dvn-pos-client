@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Zap,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 28 },
@@ -197,6 +198,8 @@ const PRESS_LOGOS: { img: string; href: string; alt: string; }[] = [
 ];
 
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="relative w-full overflow-x-clip bg-white" style={{ fontFamily: 'var(--font-body)', color: 'var(--color-text)' }}>
       <SEO title="Trang chủ" description="DVN POS - Phần mềm quản lý bán hàng phổ biến" />
@@ -367,7 +370,7 @@ const HomePage = () => {
               <div className="text-[16px] sm:text-[17px] font-semibold text-slate-900">7 ngày dùng thử miễn phí</div>
               <div className="mt-1 text-[13px] text-slate-600">Trải nghiệm đầy đủ tính năng — không cần thẻ.</div>
             </div>
-            <button className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-[0_10px_30px_rgba(16,185,129,0.22)]">
+            <button className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition-colors shadow-[0_10px_30px_rgba(16,185,129,0.22)]" onClick={() => navigate('/register')}>
               Đăng ký ngay
               <ArrowRightCircle className="w-4 h-4" />
             </button>

@@ -23,7 +23,7 @@ import {
   X
 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -40,6 +40,7 @@ const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export default function Header() {
+  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<{ [key: string]: boolean; }>({});
@@ -609,7 +610,7 @@ export default function Header() {
             >
               Đăng nhập
             </button>
-            <button className="px-3 py-2 xl:px-4 xl:py-2 text-[12px] xl:text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors shadow-md shadow-emerald-100">
+            <button className="px-3 py-2 xl:px-4 xl:py-2 text-[12px] xl:text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors shadow-md shadow-emerald-100" onClick={() => navigate('/register')}>
               Đăng ký dùng thử
             </button>
           </div>
@@ -622,8 +623,7 @@ export default function Header() {
                 !isScrolled
                   ? 'text-white border-white/30 bg-white/10 hover:bg-white/15'
                   : 'text-emerald-700 border-emerald-200 bg-white/80 hover:bg-emerald-50',
-              ].join(' ')}
-            >
+              ].join(' ')} onClick={() => setIsLoginModalOpen(true)}>
               Đăng nhập
             </button>
             <button
@@ -702,10 +702,10 @@ export default function Header() {
             </div>
 
             <div className="px-5 py-4 border-t border-slate-100 bg-slate-50 space-y-2.5 shrink-0">
-              <button className="w-full py-3 text-[13px] font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors shadow-sm">
+              <button className="w-full py-3 text-[13px] font-semibold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors shadow-sm" onClick={() => setIsLoginModalOpen(true)}>
                 Đăng nhập gian hàng
               </button>
-              <button className="w-full py-3 text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors shadow-md shadow-emerald-100">
+              <button className="w-full py-3 text-[13px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors shadow-md shadow-emerald-100" onClick={() => navigate('/register')}>
                 Đăng ký dùng thử miễn phí
               </button>
             </div>
