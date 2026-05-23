@@ -1,5 +1,7 @@
 import LOGO from '@/assets/logo/logo.png';
+import Modal from '@/components/ui/Modal';
 import { FOOD_INDUSTRIES, RETAIL_INDUSTRIES, SERVICE_INDUSTRIES } from '@/data/industries';
+import LoginModalContent from '@/features/auth/views/LoginModalContent';
 import {
   Bed,
   Calculator,
@@ -41,6 +43,7 @@ export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<{ [key: string]: boolean; }>({});
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -602,6 +605,7 @@ export default function Header() {
                   ? 'text-white border-white/30 bg-white/10 hover:bg-white/15'
                   : 'text-emerald-700 border-emerald-200 bg-white hover:bg-emerald-50',
               ].join(' ')}
+              onClick={() => setIsLoginModalOpen(true)}
             >
               Đăng nhập
             </button>
@@ -708,6 +712,13 @@ export default function Header() {
           </div>
         </div>
       )}
+      <Modal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        title="Đăng nhập tài khoản DVN"
+      >
+        <LoginModalContent />
+      </Modal>
     </header>
   );
 }
