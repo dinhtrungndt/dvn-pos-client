@@ -1,8 +1,8 @@
 import { useAuthStore } from '@/stores/authStore';
+import { redirectToTenantLogin } from '@/utils/tenantHelper';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authApi } from '../api/authApi';
-import { redirectToTenantLogin } from '@/utils/tenantHelper';
 
 export default function LoginModalContent() {
   const navigate = useNavigate();
@@ -27,10 +27,10 @@ export default function LoginModalContent() {
       setIsLoading(false);
 
       if (data.exists) {
-        setErrorMsg(`Gian hàng này đã tồn tại. Đang chuyển qua trang đăng nhập...`);
+        setErrorMsg(`Đang chuyển đến trang đăng nhập...`);
         setTimeout(() => {
           redirectToTenantLogin(subdomain.toLowerCase());
-        }, 1000);
+        }, 500);
       } else {
         setGlobalSubdomain(subdomain.toLowerCase());
         navigate('/register');
