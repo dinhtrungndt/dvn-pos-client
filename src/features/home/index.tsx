@@ -214,7 +214,7 @@ const HomePage = () => {
             playsInline
             className="w-full h-full object-cover"
             style={{ filter: 'saturate(1.05) contrast(1.05)' }}
-            src="https://dinhtrung.id.vn/assets/dvn/bg_not_logo.mp4"
+            src="https://api-ql-vlxd.dinhtrung.id.vn/assets/bg.mp4"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-slate-950/25 via-slate-950/40 to-slate-950/70" />
         </div>

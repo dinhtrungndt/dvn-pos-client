@@ -8,6 +8,11 @@ export const authApi = {
     return response.data;
   },
 
+  checkPhone: async (phone: string): Promise<{ exists: boolean; message: string }> => {
+    const response = await apiClient.get(`/public/tenants/check-phone?phone=${phone}`);
+    return response.data;
+  },
+
   getIndustries: async (): Promise<Industry[]> => {
     const response = await apiClient.get('/public/industries');
     return response.data;

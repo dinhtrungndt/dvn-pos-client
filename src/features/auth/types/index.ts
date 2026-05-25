@@ -11,6 +11,8 @@ export interface RegisterPayload {
   industry_id: number;
   phone: string;
   password: string;
+  captcha_id: string;
+  captcha_code: string;
 }
 
 export interface TenantResponse {

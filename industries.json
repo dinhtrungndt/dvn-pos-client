@@ -1,0 +1,23 @@
+﻿{
+    "value":  [
+                  {
+                      "Id":  1,
+                      "Code":  "BUILD",
+                      "Name":  "Váº­t liá»u xÃ¢y dá»±ng",
+                      "Features":  "{\"has_variants\": false, \"has_weight_calc\": true}"
+                  },
+                  {
+                      "Id":  2,
+                      "Code":  "FNB",
+                      "Name":  "F\u0026B - Än uá»ng",
+                      "Features":  "{\"has_variants\": true, \"has_table_map\": true}"
+                  },
+                  {
+                      "Id":  3,
+                      "Code":  "RETAIL",
+                      "Name":  "Táº¡p hÃ³a \u0026 SiÃªu thá»",
+                      "Features":  "{\"has_variants\": false, \"has_expiry_date\": true}"
+                  }
+              ],
+    "Count":  3
+}

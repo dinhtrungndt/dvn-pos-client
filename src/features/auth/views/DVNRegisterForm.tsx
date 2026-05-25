@@ -3,10 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import PhoneInputPkg from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { FOOD_INDUSTRIES, RETAIL_INDUSTRIES, SERVICE_INDUSTRIES } from '../../../data/industries';
+import { useAuthStore } from '../../../stores/authStore';
+import { authApi } from '../api/authApi';
+import type { RegisterPayload } from '../types';
+import { redirectToTenantLogin } from '../../../utils/tenantHelper';
 
 const PhoneInput: any = (PhoneInputPkg as any).default || PhoneInputPkg;
 
-const CustomSelect = ({ label, value, onChange, options, defaultLabel }: any) => {
+const CustomSelect = ({ label, value, onChange, options, defaultLabel, error }: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -21,12 +25,13 @@ const CustomSelect = ({ label, value, onChange, options, defaultLabel }: any) =>
   }, []);
 
   return (
-    <div
-      className={`w-full h-14 rounded-2xl border bg-white px-5 flex items-center justify-between cursor-pointer transition relative mt-4 ${isOpen ? 'border-emerald-500 ring-4 ring-emerald-100' : 'border-slate-300 hover:border-emerald-500'}`}
-      ref={dropdownRef}
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      <div className="pointer-events-none w-full select-none">
+    <div className="w-full mt-4 relative">
+      <div
+        className={`w-full h-14 rounded-2xl border bg-white px-5 flex items-center justify-between cursor-pointer transition relative ${error ? '!border-red-500 ring-4 ring-red-50' : isOpen ? 'border-emerald-500 ring-4 ring-emerald-100' : 'border-slate-300 hover:border-emerald-500'}`}
+        ref={dropdownRef}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <div className="pointer-events-none w-full select-none">
         {value ? (
           <div>
             <div className="text-[12px] font-semibold text-slate-500">{label}</div>
@@ -56,6 +61,8 @@ const CustomSelect = ({ label, value, onChange, options, defaultLabel }: any) =>
           ))}
         </ul>
       )}
+    </div>
+    {error && <div className="text-red-500 text-[13px] mt-1 ml-1">{error}</div>}
     </div>
   );
 };
@@ -190,9 +197,15 @@ const IndustrySelect = ({ value, onChange }: any) => {
 
 export const DVNRegisterForm = () => {
   const [step, setStep] = useState(1);
+  const [fullname, setFullname] = useState("");
   const [phoneValue, setPhoneValue] = useState("");
   const [businessCountry, setBusinessCountry] = useState('Việt Nam');
   const [region, setRegion] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(true);
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isVerifying, setIsVerifying] = useState(false);
+  const { register, isRegistering, registerError } = useAuthStore();
 
   const [captchaId, setCaptchaId] = useState('');
   const [captchaImage, setCaptchaImage] = useState('');
@@ -214,6 +227,21 @@ export const DVNRegisterForm = () => {
     } catch (err) {
       console.error('Failed to load captcha', err);
     }
+  };
+
+  const resetForm = () => {
+    setFullname('');
+    setPhoneValue('');
+    setBusinessCountry('Việt Nam');
+    setRegion('');
+    setTermsAccepted(true);
+    setIndustry('');
+    setStoreName('');
+    setPassword('');
+    setCaptchaCode('');
+    setErrors({});
+    fetchCaptcha();
+    setStep(1);
   };
 
   useEffect(() => {
@@ -249,6 +277,120 @@ export const DVNRegisterForm = () => {
     setRegion('');
   }, [businessCountry]);
 
+  const handleStep1Submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+
+    if (!fullname.trim()) newErrors.fullname = 'Vui lòng nhập họ tên';
+    if (!phoneValue || phoneValue.length < 9) newErrors.phoneValue = 'Vui lòng nhập số điện thoại hợp lệ';
+    if (!region) newErrors.region = 'Vui lòng chọn khu vực';
+    if (!captchaCode || captchaCode.length < 4) newErrors.captchaCode = 'Vui lòng nhập mã xác thực (4 ký tự)';
+    if (!termsAccepted) newErrors.termsAccepted = 'Bạn phải đồng ý với điều khoản sử dụng';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    setIsVerifying(true);
+    
+    // 1. Kiểm tra số điện thoại
+    try {
+      const phoneCheck = await authApi.checkPhone(phoneValue);
+      if (phoneCheck.exists) {
+        setErrors({ phoneValue: 'Số điện thoại này đã được đăng ký. Vui lòng sử dụng số điện thoại khác.' });
+        setIsVerifying(false);
+        return;
+      }
+    } catch (err) {
+      setErrors({ phoneValue: 'Không thể kiểm tra số điện thoại' });
+      setIsVerifying(false);
+      return;
+    }
+
+    // 2. Kiểm tra Captcha
+    try {
+      const res = await fetch('http://localhost:1311/api/v1/public/captcha/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ captcha_id: captchaId, captcha_code: captchaCode })
+      });
+      const data = await res.json();
+
+      if (!res.ok || data.success === false) {
+        setErrors({ captchaCode: data.message || 'Mã xác thực không chính xác' });
+        setIsVerifying(false);
+        fetchCaptcha();
+        return;
+      }
+    } catch (err) {
+      setErrors({ captchaCode: 'Không thể kết nối đến máy chủ xác thực' });
+      setIsVerifying(false);
+      return;
+    }
+
+    setIsVerifying(false);
+    setStep(2);
+  };
+
+  const getIndustryId = (label: string) => {
+    if (FOOD_INDUSTRIES.some(i => i.label === label)) return 2; // FNB
+    if (label === 'Vật liệu xây dựng') return 1; // BUILD
+    return 3; // RETAIL
+  };
+
+  const generateSubdomain = (name: string) => {
+    return name
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+  };
+
+  const handleStep2Submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+
+    if (!industry) newErrors.industry = 'Vui lòng chọn ngành hàng';
+    if (!storeName.trim()) newErrors.storeName = 'Vui lòng nhập tên cửa hàng';
+    if (!password || password.length < 6) newErrors.password = 'Mật khẩu phải từ 6 ký tự trở lên';
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
+    const payload: RegisterPayload = {
+      store_name: storeName,
+      subdomain: generateSubdomain(storeName),
+      industry_id: getIndustryId(industry),
+      phone: phoneValue,
+      password: password,
+      captcha_id: captchaId,
+      captcha_code: captchaCode,
+    };
+
+    const tenant = await register(payload);
+    
+    if (tenant) {
+      // Success, move to step 3
+      setStep(3);
+    } else {
+      // If error is about captcha or phone, go back to step 1
+      const errorMsg = useAuthStore.getState().registerError;
+      if (errorMsg?.includes('Mã xác thực')) {
+        setErrors({ captchaCode: errorMsg });
+        setStep(1);
+        fetchCaptcha();
+      } else if (errorMsg?.includes('Số điện thoại')) {
+        setErrors({ phoneValue: errorMsg });
+        setStep(1);
+      }
+    }
+  };
+
   if (step === 2) {
     return (
       <div className="w-full flex flex-col items-center justify-center animate-fade-in">
@@ -277,48 +419,73 @@ export const DVNRegisterForm = () => {
           Hãy tạo cửa hàng của bạn
         </h2>
 
-        <form className="w-full space-y-4 new-register-form max-w-[480px]" noValidate>
+        {registerError && !registerError.includes('Mã xác thực') && (
+          <div className="w-full max-w-[480px] bg-red-50 text-red-600 p-3 rounded-xl mb-4 text-center text-sm border border-red-100">
+            {registerError}
+          </div>
+        )}
+
+        <form className="w-full space-y-4 new-register-form max-w-[480px]" noValidate onSubmit={handleStep2Submit}>
           {/* Chọn ngành hàng kinh doanh */}
-          <IndustrySelect
-            value={industry}
-            onChange={setIndustry}
-          />
+          <div className={`relative ${errors.industry ? '[&>div]:!border-red-500' : ''}`}>
+            <IndustrySelect
+              value={industry}
+              onChange={(val: string) => { setIndustry(val); setErrors(prev => ({ ...prev, industry: '' })); }}
+            />
+            {errors.industry && <div className="text-red-500 text-[13px] mt-1 ml-1">{errors.industry}</div>}
+          </div>
 
           {/* Đặt tên cho cửa hàng của bạn */}
           <div className="w-100 input-section wrap-input relative mt-4">
             <input
               type="text"
-              className="message-error"
+              className={`message-error ${errors.storeName ? '!border-red-500' : ''}`}
               placeholder="Đặt tên cho cửa hàng của bạn"
               value={storeName}
-              onChange={(e) => setStoreName(e.target.value)}
+              onChange={(e) => { setStoreName(e.target.value); setErrors(prev => ({ ...prev, storeName: '' })); }}
             />
+            {errors.storeName && <div className="text-red-500 text-[13px] mt-1 ml-1">{errors.storeName}</div>}
           </div>
 
           {/* Nhập mật khẩu */}
           <div className="w-100 input-section wrap-input relative mt-4">
             <input
               type={showPassword ? "text" : "password"}
-              className="message-error pr-12"
-              placeholder="Nhập mật khẩu (tối thiểu 8 ký tự)"
+              className={`message-error pr-12 ${errors.password ? '!border-red-500' : ''}`}
+              placeholder="Nhập mật khẩu (tối thiểu 6 ký tự)"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: '' })); }}
             />
             <button
               type="button"
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              className="absolute right-4 top-1/2 -translate-y-[calc(50%+10px)] text-slate-400 hover:text-slate-600"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
+            {errors.password && <div className="text-red-500 text-[13px] mt-1 ml-1">{errors.password}</div>}
           </div>
 
-          <div className="pt-6 flex justify-center w-full">
+          <div className="pt-6 flex justify-center w-full gap-4">
             <button
               type="button"
-              onClick={() => setStep(3)}
-              className="h-[52px] px-12 rounded-full bg-[#0052CC] text-white font-semibold text-[15px] hover:bg-blue-700 transition shadow-soft">
-              Tạo cửa hàng
+              disabled={isRegistering}
+              onClick={() => setStep(1)}
+              className="h-[52px] px-8 rounded-full bg-slate-100 text-slate-700 font-semibold text-[15px] hover:bg-slate-200 transition shadow-soft disabled:opacity-50">
+              Quay lại
+            </button>
+            <button
+              type="submit"
+              disabled={isRegistering}
+              className={`h-[52px] px-12 rounded-full text-white font-semibold text-[15px] transition shadow-soft flex items-center justify-center gap-2 ${isRegistering ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0052CC] hover:bg-blue-700'}`}>
+              {isRegistering ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                  Đang tạo...
+                </>
+              ) : (
+                'Tạo cửa hàng'
+              )}
             </button>
           </div>
         </form>
@@ -397,8 +564,17 @@ export const DVNRegisterForm = () => {
             </button>
           </div>
 
-          <div className="pt-6 flex justify-center w-full">
-            <button type="button" className="h-[48px] px-8 rounded-full bg-[#0062FF] text-white font-semibold text-[15px] hover:bg-blue-700 transition shadow-soft">
+          <div className="pt-6 flex justify-center w-full gap-4">
+            <button
+              type="button"
+              onClick={resetForm}
+              className="h-[48px] px-6 rounded-full bg-slate-100 text-slate-700 font-semibold text-[15px] hover:bg-slate-200 transition shadow-soft">
+              Đăng ký gian hàng mới
+            </button>
+            <button 
+              type="button" 
+              onClick={() => redirectToTenantLogin(generateSubdomain(storeName))}
+              className="h-[48px] px-8 rounded-full bg-[#0062FF] text-white font-semibold text-[15px] hover:bg-blue-700 transition shadow-soft">
               Bắt đầu quản lý
             </button>
           </div>
@@ -428,7 +604,7 @@ export const DVNRegisterForm = () => {
       >
         Tạo tài khoản dùng thử miễn phí
       </h1>
-      <form className="new-register-form mt-8 space-y-4" noValidate onSubmit={(e) => { e.preventDefault(); setStep(2); }}>
+      <form className="new-register-form mt-8 space-y-4" noValidate onSubmit={handleStep1Submit}>
         <style>{`
           @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
           .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
@@ -448,18 +624,26 @@ export const DVNRegisterForm = () => {
       `}</style>
 
         <div className="w-100 input-section wrap-input relative">
-          <label className="filled w-100" htmlFor="fullname">
-            <input id="fullname" autoComplete="one-time-code" name="fullname" type="text" className="message-error" aria-invalid="true" placeholder="Nhập họ tên" />
-            <span data-label="Nhập họ tên" className="label-input fullName hidden"></span>
-          </label>
+          <input 
+            id="fullname" 
+            autoComplete="one-time-code" 
+            name="fullname" 
+            type="text" 
+            className={`message-error ${errors.fullname ? '!border-red-500 !ring-red-100 focus:!border-red-500 focus:!ring-red-100' : ''}`} 
+            aria-invalid="true" 
+            placeholder="Nhập họ tên" 
+            value={fullname}
+            onChange={(e) => { setFullname(e.target.value); setErrors(prev => ({ ...prev, fullname: '' })); }}
+          />
+          {errors.fullname && <div className="text-red-500 text-[13px] mt-1 ml-1">{errors.fullname}</div>}
         </div>
 
-        <div className="w-100 input-section wrap-input relative mt-4">
+        <div className={`w-100 input-section wrap-input relative mt-4 ${errors.phoneValue ? '[&_.form-control]:!border-red-500 [&_.flag-dropdown]:!border-red-500' : ''}`}>
           <label className="filled w-100 block">
             <PhoneInput
               country={'vn'}
               value={phoneValue}
-              onChange={(phone: string) => setPhoneValue(phone)}
+              onChange={(phone: string) => { setPhoneValue(phone); setErrors(prev => ({ ...prev, phoneValue: '' })); }}
               inputProps={{
                 name: 'phone',
                 required: true,
@@ -468,6 +652,7 @@ export const DVNRegisterForm = () => {
               }}
             />
           </label>
+          {errors.phoneValue && <div className="text-red-500 text-[13px] mt-1 ml-1">{errors.phoneValue}</div>}
         </div>
 
         <CustomSelect
@@ -481,11 +666,12 @@ export const DVNRegisterForm = () => {
           label="Khu vực"
           defaultLabel="Chọn khu vực"
           value={region}
-          onChange={setRegion}
+          onChange={(val: string) => { setRegion(val); setErrors(prev => ({ ...prev, region: '' })); }}
           options={regions}
+          error={errors.region}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1.2fr] gap-3 items-center mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1.2fr] gap-3 items-center mt-4 relative">
           <div className="text-[16px] font-semibold text-slate-700">Mã xác thực</div>
 
           <div className="flex items-center gap-3">
@@ -503,29 +689,47 @@ export const DVNRegisterForm = () => {
             </button>
           </div>
 
-          <input
-            className="message-error"
-            placeholder="Nhập mã xác thực"
-            value={captchaCode}
-            onChange={(e) => setCaptchaCode(e.target.value)}
-            maxLength={4}
-          />
+          <div className="relative">
+            <input
+              className={`message-error ${errors.captchaCode ? '!border-red-500 !ring-red-100 focus:!border-red-500' : ''}`}
+              placeholder="Nhập mã xác thực"
+              value={captchaCode}
+              onChange={(e) => { setCaptchaCode(e.target.value); setErrors(prev => ({ ...prev, captchaCode: '' })); }}
+              maxLength={4}
+            />
+            {errors.captchaCode && <div className="text-red-500 text-[13px] mt-1 absolute top-[calc(100%+4px)] left-0 w-[200%]">{errors.captchaCode}</div>}
+          </div>
         </div>
 
-        <label className="flex items-start gap-3 pt-3 cursor-pointer">
-          <input type="checkbox" className="mt-1 h-5 w-5 rounded text-blue-600 focus:ring-blue-500 cursor-pointer" defaultChecked />
-          <span className="text-[15px] text-slate-700 leading-relaxed">
-            Tôi đã đọc và đồng ý{' '}
-            <a className="text-blue-600 hover:text-blue-700 font-semibold" href="#" target="_blank" rel="noreferrer">
-              Điều khoản và chính sách sử dụng
-            </a>{' '}
-            của DVN
-          </span>
-        </label>
+        <div className="mt-4">
+          <label className="flex items-start gap-3 pt-3 cursor-pointer">
+            <input 
+              type="checkbox" 
+              className={`mt-1 h-5 w-5 rounded focus:ring-blue-500 cursor-pointer ${errors.termsAccepted ? 'border-red-500 text-red-600' : 'text-blue-600'}`} 
+              checked={termsAccepted}
+              onChange={(e) => { setTermsAccepted(e.target.checked); setErrors(prev => ({ ...prev, termsAccepted: '' })); }}
+            />
+            <span className={`text-[15px] leading-relaxed ${errors.termsAccepted ? 'text-red-500' : 'text-slate-700'}`}>
+              Tôi đã đọc và đồng ý{' '}
+              <a className={`${errors.termsAccepted ? 'text-red-600 hover:text-red-700' : 'text-blue-600 hover:text-blue-700'} font-semibold`} href="#" target="_blank" rel="noreferrer">
+                Điều khoản và chính sách sử dụng
+              </a>{' '}
+              của DVN
+            </span>
+          </label>
+          {errors.termsAccepted && <div className="text-red-500 text-[13px] mt-1 ml-8">{errors.termsAccepted}</div>}
+        </div>
 
         <div className="pt-4 flex justify-end">
-          <button type="submit" className="h-14 px-10 rounded-full bg-blue-600 text-white font-semibold text-[16px] hover:bg-blue-700 transition shadow-soft w-full sm:w-auto">
-            Tiếp tục
+          <button type="submit" disabled={isVerifying} className={`h-14 px-10 rounded-full text-white font-semibold text-[16px] transition shadow-soft w-full sm:w-auto flex items-center justify-center gap-2 ${isVerifying ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}>
+            {isVerifying ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                Đang kiểm tra...
+              </>
+            ) : (
+              'Tiếp tục'
+            )}
           </button>
         </div>
       </form>
