@@ -21,5 +21,10 @@ export const authApi = {
   registerTenant: async (payload: RegisterPayload): Promise<TenantResponse> => {
     const response = await apiClient.post('/public/tenants/register', payload);
     return response.data;
+  },
+
+  login: async (payload: { tenant_subdomain: string; phone: string; password: string }) => {
+    const response = await apiClient.post('/public/auth/login', payload);
+    return response.data;
   }
 };
