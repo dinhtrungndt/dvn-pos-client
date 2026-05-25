@@ -5,12 +5,14 @@ import type { RegisterPayload, TenantResponse } from '../features/auth/types';
 interface AuthState {
   subdomain: string;
   token: string | null;
+  user: { phone: string } | null;
   isRegistering: boolean;
   registerError: string | null;
 
   // Các hàm (actions) để thay đổi dữ liệu
   setSubdomain: (subdomain: string) => void;
   setToken: (token: string) => void;
+  setUser: (user: { phone: string } | null) => void;
   logout: () => void;
   register: (payload: RegisterPayload) => Promise<TenantResponse | null>;
 }
@@ -18,12 +20,14 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((set) => ({
   subdomain: '',
   token: null,
+  user: null,
   isRegistering: false,
   registerError: null,
 
   setSubdomain: (subdomain) => set({ subdomain }),
   setToken: (token) => set({ token }),
-  logout: () => set({ subdomain: '', token: null }),
+  setUser: (user) => set({ user }),
+  logout: () => set({ subdomain: '', token: null, user: null }),
   register: async (payload: RegisterPayload) => {
     set({ isRegistering: true, registerError: null });
     try {

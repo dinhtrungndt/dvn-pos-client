@@ -1,9 +1,9 @@
 import logo from '@/assets/logo/logo.png';
 import { BarChart2, Eye, EyeOff, Phone, ShoppingCart } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, type SetStateAction } from 'react';
 import PhoneInputPkg from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../../stores/authStore';
 import { authApi } from '../api/authApi';
 
@@ -12,6 +12,7 @@ const PhoneInput: any = (PhoneInputPkg as any).default || PhoneInputPkg;
 const LoginView = () => {
   const navigate = useNavigate();
   const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -50,6 +51,7 @@ const LoginView = () => {
 
       if (data.success) {
         setToken(data.token);
+        setUser({ phone: username });
         if (rememberMe) {
           localStorage.setItem('dvn_token', data.token);
         }
@@ -98,7 +100,7 @@ const LoginView = () => {
             <PhoneInput
               country={'vn'}
               value={username}
-              onChange={phone => setUsername(phone)}
+              onChange={(phone: SetStateAction<string>) => setUsername(phone)}
               inputProps={{
                 name: 'phone',
                 required: true,
@@ -155,7 +157,7 @@ const LoginView = () => {
         <div className="flex w-full">
           <button
             type="button"
-            onClick={(e) => handleLogin(e, '/admin')}
+            onClick={(e) => handleLogin(e, '/dashboard')}
             disabled={isLoading}
             className="flex-1 h-14 bg-[#0062FF] hover:bg-blue-700 text-white font-semibold flex items-center justify-center gap-2.5 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
           >
@@ -164,7 +166,7 @@ const LoginView = () => {
           </button>
           <button
             type="button"
-            onClick={(e) => handleLogin(e, '/pos')}
+            onClick={(e) => handleLogin(e, '/sale')}
             disabled={isLoading}
             className="flex-1 h-14 bg-[#10B981] hover:bg-emerald-600 text-white font-semibold flex items-center justify-center gap-2.5 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
           >
