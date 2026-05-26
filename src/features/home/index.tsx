@@ -622,7 +622,7 @@ const HomePage = () => {
                     <div className="mt-1">
                       <span className="text-slate-500">Chăm sóc khách hàng: </span>
                       <a href="tel:19006522" className="font-semibold text-emerald-700 hover:text-emerald-800">
-                        1900 6522
+                        0319148297
                       </a>
                     </div>
                     <div className="mt-3 text-[12px] text-slate-500">

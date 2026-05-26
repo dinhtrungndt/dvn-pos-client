@@ -1,36 +1,47 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../stores/authStore';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { PosCart } from './components/PosCart';
+import { PosDeliveryForm } from './components/PosDeliveryForm';
+import { PosFooter } from './components/PosFooter';
+import { PosHeader } from './components/PosHeader';
+import { PosProductGrid } from './components/PosProductGrid';
 
 export default function PosPage() {
-  const navigate = useNavigate();
-  const logout = useAuthStore(state => state.logout);
-
-  const handleLogout = () => {
-    logout();
-    localStorage.removeItem('dvn_token');
-    navigate('/login');
-  };
+  const [saleMode, setSaleMode] = useState<'fast' | 'normal' | 'delivery'>('delivery');
 
   return (
     <>
-
       <Helmet>
         <title>Bán hàng - DVN POS</title>
         <meta name="description" content="Giao diện thu ngân và bán hàng nhanh chóng, tiện lợi dành cho cửa hàng của bạn." />
       </Helmet>
-      <div className="min-h-screen bg-slate-50 p-8">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow p-8">
-        <h1 className="text-3xl font-bold text-slate-800 mb-4">Trang Bán Hàng (POS)</h1>
-        <p className="text-slate-600 mb-8">Giao diện bán hàng đang được phát triển...</p>
 
-        <button
-          onClick={handleLogout}
-          className="px-6 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-semibold transition-colors"
-        >
-          Đăng xuất
-        </button>
-      </div>
+      {/* Root Container */}
+      <div className="flex flex-col h-screen w-full bg-slate-200 overflow-hidden text-slate-800">
+        
+        {/* Header */}
+        <PosHeader saleMode={saleMode} />
+
+        {/* Main Content Area */}
+        <div className="flex flex-1 min-h-0 overflow-hidden relative">
+          
+          {/* Left Panel: Cart */}
+          <div className={`flex-shrink-0 flex flex-col bg-white border-r border-slate-200 shadow-sm transition-all duration-300 ${saleMode === 'fast' ? 'w-full' : 'w-[45%] lg:w-[40%] xl:w-[35%] max-w-[500px]'}`}>
+            <PosCart saleMode={saleMode} />
+          </div>
+
+          {/* Right Panel: Actions / Product Grid */}
+          {saleMode !== 'fast' && (
+            <div className="flex-1 flex flex-col min-w-0 bg-slate-50 transition-all duration-300">
+              {saleMode === 'normal' && <PosProductGrid />}
+              {saleMode === 'delivery' && <PosDeliveryForm />}
+            </div>
+          )}
+
+        </div>
+
+        {/* Footer */}
+        <PosFooter saleMode={saleMode} setSaleMode={setSaleMode as any} />
       </div>
     </>
   );
